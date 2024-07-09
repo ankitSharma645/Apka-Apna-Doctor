@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const cors = require('cors');
 
+const path = require('path')
 const chatbotRoutes = require('./routes/chatbot');
 // Your other middleware and routes
 
@@ -27,6 +28,12 @@ app.use("/api/v1/user", require("./routes/userRoutes"));
 app.use("/api/v1/admin", require("./routes/adminRoutes"));
 app.use("/api/v1/doctor", require("./routes/doctorRoutes"));
 app.use('/api/v1/chatbot', chatbotRoutes);
+
+app.use(express.static(path.join(__dirname, "./client/build")));
+
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./beta/build/index.html"));
+});
 //port
 const port = process.env.PORT || 8080;
 //listen port
